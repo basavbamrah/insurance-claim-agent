@@ -1,0 +1,11 @@
+.env
+images/
+.vscode/
+*.__pycache__/
+*.pyc
+*.pyo
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+docs/

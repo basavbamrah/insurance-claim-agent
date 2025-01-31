@@ -1,0 +1,205 @@
+{% include 'block.html' %} {% block subcontent %}
+<style>
+    .box {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 75%;
+        text-align: start;
+        justify-content: start;
+        align-items: start;
+        max-height: 80vh;
+        overflow: auto;
+    }
+
+    .btn-upload {
+        border-radius: 10rem;
+    }
+</style>
+
+{% if not success %}
+<form action="/policy-coverage" method="post" enctype="multipart/form-data">
+    <div class="gradient-card d-flex flex-column justify-content-start align-items-center" style="height: 95vh;">
+        <div class="my-3 d-flex flex-row justify-content-center align-items-center">
+            <a href="/home" class="bg-light text-dark rounded me-5 p-2">
+                <img src="{{url_for('static', filename='img/back.svg')}}" alt="" height="20px">
+            </a>
+            <img src="{{url_for('static', filename='img/policy.svg')}}" alt="" height="60px">
+            <p class="fs-3 fw-bold">Policy Coverage Assessment</p>
+        </div>
+
+        <p class="fs-4">Upload your policy document</p>
+        <div class="box d-flex flex-column">
+            <label for="file" class="ms-4 fw-bold">Upload Documents <span class="text-danger">*</span></label>
+            <input required class="ms-4 w-50 form-control" type="file" name="file" id="file" placeholder="What are you?">
+        </div>
+
+        <div class="box row">
+            <div class="row col-lg-6 col-sm-12">
+                <div class="visually-hidden">
+                    <label for="user" class="fw-bold">User</label>
+                    <input type="text" name="user" id="user" class="form-control">
+                </div>
+                <div class="ms-3 col-10 mt-4">
+                    <label for="start-date" class="fw-bold">Policy start/inception date <span class="text-danger">*</span></label>
+                    <input required type="date" name="start-date" id="start-date" class="form-control">
+                </div>
+
+                <div class="ms-3 col-10 mt-4">
+                    <label for="disease" class="fw-bold">Any ongoing disease or treatment?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="thyroid" id="thyroid" name="disease"/>
+                        <label class="form-check-label text-capitalize" for="thyroid"> thyroid </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="diabetes" id="diabetes" name="disease"/>
+                        <label class="form-check-label text-capitalize" for="diabetes"> diabetes </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="kidney-disease" id="kidney-disease" name="disease" />
+                        <label class="form-check-label text-capitalize" for="kidney-disease"> kidney-disease </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="critical-disease"
+                            id="critical-disease" name="disease"/>
+                        <label class="form-check-label text-capitalize" for="critical-disease"> critical-disease
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="other" id="other"  name="disease"/>
+                        <label class="form-check-label text-capitalize" for="other"> other </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="none" id="none" name="disease" />
+                        <label class="form-check-label text-capitalize" for="none"> none </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-lg-6 col-sm-12">
+                <div class="ms-3 col-10 mt-4">
+                    <label for="diagnose-date" class="fw-bold">When was first diagnosed?</label>
+                    <input type="date" name="diagnose-date" id="diagnose-date" class="form-control" name="diagnose-date" />
+                </div> 
+
+                <div class="ms-3 col-10 mt-4">
+                    <label for="drink-smoke" class="fw-bold">Do you smoke or drink? <span class="text-danger">*</span></label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="smoke" id="smoke" name="drink-smoke" />
+                        <label class="form-check-label text-capitalize" for="smoke"> smoke </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="drink" id="drink" name="drink-smoke" />
+                        <label class="form-check-label text-capitalize" for="drink"> drink </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="none" id="none" name="drink-smoke" />
+                        <label class="form-check-label text-capitalize" for="none" > none </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-sm-10">
+            <button type="submit" class="btn btn-primary btn-upload w-100 mt-4">Check your policy coverage</button>
+        </div>
+    </div>
+</form>
+{% else %}
+<div class="gradient-card d-flex flex-column justify-content-start align-items-center">
+    <div class="my-3 d-flex flex-row justify-content-center align-items-center">
+        <a href="/home" class="bg-light text-dark rounded me-5 p-2">
+            <img src="{{url_for('static', filename='img/back.svg')}}" alt="" height="20px">
+        </a>
+        <img src="{{url_for('static', filename='img/policy.svg')}}" alt="" height="60px">
+        <p class="fs-3 fw-bold">Policy Coverage Assessment</p>
+    </div>
+
+    <div class="box row">
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="insurer" class="fw-bold">Insurer</label>
+            <div id="insurer" class="form-control">{{data['insurer']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="start-date" class="fw-bold">Policy start/inception date</label>
+            <div id="start-date" class="form-control">{{data['start-date']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ped" class="fw-bold">PED (Pre Existing Disease)</label>
+            <div id="ped" class="form-control">{{data['ped']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="first-diagnosis" class="fw-bold">When was first Diagnosed?</label>
+            <div id="first-diagnosis" class="form-control">{{data['first-diagnosis']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ongoing-treatment-disease" class="fw-bold">Whether any treatment/disease ongoing?</label>
+            <div id="ongoing-treatment-disease" class="form-control">{{data['ongoing-treatment-disease']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ongoing-disease-covered" class="fw-bold">Whether that disease will be covered or not?</label>
+            <div id="ongoing-disease-covered" class="form-control">{{data['ongoing-disease-covered']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ped-waiting-over" class="fw-bold">Waiting period for PED over or not?</label>
+            <div id="ped-waiting-over" class="form-control">{{data['ped-waiting-over']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="total-cover-amount" class="fw-bold">Total Cover Amount</label>
+            <div id="total-cover-amount" class="form-control">{{data['total-cover-amount']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="co-payment" class="fw-bold">Co Payment</label>
+            <div id="co-payment" class="form-control">{{data['co-payment']}}</div>
+        </div>
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="pre-hospitalization-days" class="fw-bold">Pre-hospitalization days</label>
+            <div id="pre-hospitalization-days" class="form-control">{{data['pre-hospitalization-days']}}</div>
+        </div>
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="post-hospitalization-days" class="fw-bold">Post-hospitalization days</label>
+            <div id="post-hospitalization-days" class="form-control">{{data['post-hospitalization-days']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="fraud" class="fw-bold">Any Fraud or misrepresentation captured?</label>
+            <div id="fraud" class="form-control">{{data['fraud']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="remarks" class="fw-bold">Remarks</label>
+            <div id="remarks" class="form-control">{{data['remarks']}}</div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- Disclaimer -->
+<div class="gradient-card w-100">
+    <p class=" fs-5 text-danger">
+        Disclaimer: InsureBuzz.ai uses AI to analyze documents and generate reports. For best results, please upload
+        PDFs with clear text and high quality, other results may be inaccurate.
+    </p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = localStorage.getItem("user")
+        document.getElementById("user").value = user
+    })
+</script>
+
+{% endblock %}

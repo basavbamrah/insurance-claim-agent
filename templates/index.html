@@ -1,0 +1,43 @@
+{% include 'block.html' %} {% block subcontent %}
+<style>
+    .gradient-card {
+        height: 95vh;
+    }
+
+    .gradient-policy {
+        background: linear-gradient(90deg, #FBED96 0%, #ABECD6 100%);
+        border-radius: 20px;
+        height: 30vh;
+    }
+
+    .gradient-claim {
+        background: linear-gradient(90deg, #C9D6FF 0%, #E2E2E2 100%);
+        border-radius: 20px;
+        height: 30vh;
+    }
+</style>
+<div class="row d-flex gradient-card justify-content-around">
+    <img src="{{url_for('static', filename='img/logo.svg')}}" alt="" height="200px">
+    <a href="/policy-coverage"
+        class="text-decoration-none text-dark mt-3 col-lg-5 col-sm-10 gradient-policy d-flex flex-column align-items-center justify-content-center">
+        <img src="{{url_for('static', filename='img/policy.svg')}}" alt="">
+        <p class="fs-3 fw-bold">Policy Coverage Assessment</p>
+    </a>
+    <a href="/claim-assessment"
+        class="text-decoration-none text-dark mt-3 col-lg-5 col-sm-10 gradient-claim d-flex flex-column align-items-center justify-content-center">
+        <img src="{{url_for('static', filename='img/claim.svg')}}" alt="">
+        <p class="fs-3 fw-bold">Claim Assessment</p>
+    </a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // extract user from query params and save to localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('user');
+        if (user) {
+            localStorage.setItem('user', user);
+        }
+    })
+</script>
+{% endblock %}

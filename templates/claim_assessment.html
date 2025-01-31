@@ -1,0 +1,402 @@
+{% include 'block.html' %} {% block subcontent %}
+<style>
+    .box {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 75%;
+        text-align: start;
+        justify-content: start;
+        align-items: start;
+        max-height: 80vh;
+        overflow: auto;
+    }
+
+    .btn-upload {
+        border-radius: 10rem;
+    }
+</style>
+
+{% if not success %}
+<div class="gradient-card d-flex flex-column justify-content-start align-items-center">
+    <div class="my-3 d-flex flex-row justify-content-center align-items-center">
+        <a href="/home" class="bg-light text-dark rounded me-5 p-2">
+            <img src="{{url_for('static', filename='img/back.svg')}}" alt="" height="20px">
+        </a>
+        <img src="{{url_for('static', filename='img/claim.svg')}}" alt="" height="60px">
+        <p class="fs-3 fw-bold">Claim Assessment</p>
+    </div>
+
+    <div class="box row justify-content-evenly">
+        <form name="policy" action="/doc/policy" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-policy" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="policy" class="fw-bold">Upload your Policy Document <span class="text-danger">*</span></label>
+                <input type="file" name="policy" id="policy" class="form-control" required>
+            </div>
+        </form>
+
+        <form name="discharge" action="/doc/discharge" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-discharge" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="discharge" class="fw-bold">Discharge Summary <span class="text-danger">*</span></label>
+                <input type="file" name="discharge" id="discharge" class="form-control" required>
+            </div>
+        </form>
+
+        <form name="bills" action="/doc/bills" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-bills" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="bills" class="fw-bold">Bills and Reports <span class="text-danger">*</span></label>
+                <input type="file" name="bills" id="bills" class="form-control" required>
+            </div>
+        </form>
+
+        <form name="prescriptions" action="/doc/prescriptions" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-prescriptions" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="prescriptions" class="fw-bold">Prescriptions</label>
+                <input type="file" name="prescriptions" id="prescriptions" class="form-control" required>
+            </div>
+        </form>
+
+        <form name="reports" action="/doc/reports" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-reports" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="reports" class="fw-bold">Upload Reports</label>
+                <input type="file" name="reports" id="reports" class="form-control" required>
+            </div>
+        </form>
+
+        <form name="claim" action="/doc/claim" method="post" class="col-sm-5 col-lg-3 m-1"
+            enctype="multipart/form-data">
+            <div class="visually-hidden">
+                <label for="user" class="fw-bold">User</label>
+                <input type="text" name="user" id="user-claim" class="form-control">
+            </div>
+            <div class="bg-light rounded border border-dark p-3">
+                <label for="claim" class="fw-bold">Claim Form</label>
+                <input type="file" name="claim" id="claim" class="form-control" required>
+            </div>
+        </form>
+    </div>
+
+    <form name="claim-assessment" action="/claim-assessment" id="claim-assessment" method="post">
+        <div class="gradient-card d-flex flex-column justify-content-start align-items-center">
+            <div class="box row">
+                <div class="row col-lg-6 col-sm-12">
+                    <div class="visually-hidden">
+                        <label for="user" class="fw-bold">User</label>
+                        <input type="text" name="user" id="user" class="form-control">
+                    </div>
+                    <div class="visually-hidden">
+                        <label for="docs" class="fw-bold">Docs</label>
+                        <input type="text" name="docs" id="docs" class="form-control">
+                    </div>
+                    <div class="ms-3 col-10 mt-4">
+                        <label for="start-date" class="fw-bold">Policy start/inception date <span class="text-danger">*</span></label>
+                        <input required type="date" name="start-date" id="start-date" class="form-control">
+                    </div>
+
+                    <div class="ms-3 col-10 mt-4">
+                        <label for="disease" class="fw-bold">Any ongoing disease or treatment?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="thyroid" id="thyroid"
+                                name="disease" />
+                            <label class="form-check-label text-capitalize" for="thyroid"> thyroid </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="diabetes" id="diabetes"
+                                name="disease" />
+                            <label class="form-check-label text-capitalize" for="diabetes"> diabetes </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="kidney-disease" id="kidney-disease"
+                                name="disease" />
+                            <label class="form-check-label text-capitalize" for="kidney-disease"> kidney-disease
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="critical-disease"
+                                id="critical-disease" name="disease" />
+                            <label class="form-check-label text-capitalize" for="critical-disease"> critical-disease
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="other" id="other" name="disease" />
+                            <label class="form-check-label text-capitalize" for="other"> other </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="none" id="none" name="disease" />
+                            <label class="form-check-label text-capitalize" for="none"> none </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-lg-6 col-sm-12">
+                    <div class="ms-3 col-10 mt-4">
+                        <label for="diagnose-date" class="fw-bold">When was first diagnosed?</label>
+                        <input type="date" name="diagnose-date" id="diagnose-date" class="form-control"
+                            name="diagnose-date" />
+                    </div>
+
+                    <div class="ms-3 col-10 mt-4">
+                        <label for="drink-smoke" class="fw-bold">Do you smoke or drink? <span class="text-danger">*</span></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="smoke" id="smoke"
+                                name="drink-smoke" />
+                            <label class="form-check-label text-capitalize" for="smoke"> smoke </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="drink" id="drink"
+                                name="drink-smoke" />
+                            <label class="form-check-label text-capitalize" for="drink"> drink </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="none" id="none" name="drink-smoke" />
+                            <label class="form-check-label text-capitalize" for="none"> none </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-sm-10">
+                <button type="submit" class="btn btn-primary btn-upload w-100 mt-4">Start Assessment</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="gradient-card d-flex flex-column justify-content-start align-items-center">
+    <div class="my-3 d-flex flex-row justify-content-center align-items-center">
+        <a href="/home" class="bg-light text-dark rounded me-5 p-2">
+            <img src="{{url_for('static', filename='img/back.svg')}}" alt="" height="20px">
+        </a>
+        <img src="{{url_for('static', filename='img/assessment.svg')}}" alt="" height="60px">
+        <p class="fs-3 fw-bold">Assessment</p>
+    </div>
+
+    <div class="box row">
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="policy-holder-name" class="fw-bold">Policy Holder Name</label>
+            <div name="policy-holder-name" id="policy-holder-name" class="form-control">{{data['policy-holder-name']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="start-date" class="fw-bold">Policy start/inception date</label>
+            <div name="start-date" id="start-date" class="form-control">{{data['start-date']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="insurer" class="fw-bold">Insurer</label>
+            <div name="insurer" id="insurer" class="form-control">{{data['insurer']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ped" class="fw-bold">PED (Pre Existing Disease)</label>
+            <div name="ped" id="ped" class="form-control">{{data['ped']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="running-time" class="fw-bold">Policy Running Time</label>
+            <div name="running-time" id="running-time" class="form-control">{{data['running-time']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="doctor-name" class="fw-bold">Doctor's Name</label>
+            <div name="doctor-name" id="doctor-name" class="form-control">{{data['doctor-name']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="medicines-prescribed" class="fw-bold">Medicines prescribed with dosage.</label>
+            <div name="medicines-prescribed" id="medicines-prescribed"
+                class="form-control">{{data['medicines-prescribed']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="pharmacy-name" class="fw-bold">Pharmacy Name</label>
+            <div name="pharmacy-name" id="pharmacy-name" class="form-control">{{data['pharmacy-name']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="hospital-name" class="fw-bold">Hospital Name</label>
+            <div name="hospital-name" id="hospital-name" class="form-control">{{data['hospital-name']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="reports-tests" class="fw-bold">Reports / Tests Conducted</label>
+            <div name="reports-tests" id="reports-tests"
+                class="form-control">{{data['reports-tests']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="reason" class="fw-bold">Reason for Hospitalization</label>
+            <div name="reason" id="reason" class="form-control">{{data['reason']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="reimbursement-sought" class="fw-bold">Total Reimbursement Sought</label>
+            <div name="reimbursement-sought" id="reimbursement-sought" class="form-control">{{data['reimbursement-sought']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="reimbursible" class="fw-bold">Estimated Total Reimburesement Approved</label>
+            <div name="reimbursible" id="reimbursible" class="form-control">{{data['reimbursible']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="ongoing-disease" class="fw-bold">Ongoing disease or treatment declared at the time of policy
+                inception</label>
+            <div name="ongoing-disease" id="ongoing-disease" class="form-control">{{data['ped']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="summary-policy-holder" class="fw-bold">Brief summary of the Policy Holder</label>
+            <div name="summary-policy-holder" id="summary-policy-holder"
+                class="form-control">{{data['summary-policy-holder']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="deductions" class="fw-bold">Deductions and Reasons</label>
+            <div type="text" name="deductions" id="deductions"
+                class="form-control">{{data['deductions']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="first-diagnosis" class="fw-bold">When was it first diagnosed?</label>
+            <div name="first-diagnosis" id="first-diagnosis" class="form-control">{{data['first-diagnosis']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="smoking-drinking" class="fw-bold">Smoking and Drinking Habits</label>
+            <div name="smoking-drinking" id="smoking-drinking" class="form-control">{{data['smoking-drinking']}}</div>
+        </div>
+
+        <div class="mt-3 row col-lg-5 col-sm-10 m-auto">
+            <label for="remarks" class="fw-bold">Remarks</label>
+            <div name="remarks" id="remarks" class="form-control">{{data['remarks']}}</div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- Disclaimer -->
+<div class="gradient-card w-100">
+    <p class=" fs-5 text-danger">
+        Disclaimer: InsureBuzz.ai uses AI to analyze documents and generate reports. For best results, please upload
+        PDFs with clear text and high quality, other results may be inaccurate.
+    </p>
+</div>
+
+<!-- Loading modal -->
+<div class="modal fade" id="loading" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="loading"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="fw-bold mt-3 text-capitalize" id="loading-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let doc = urlParams.get('uploaded')
+        let existing_docs = [];
+        if (doc) {
+            if (localStorage.getItem("docs")) {
+                console.log("Existing documents found");
+                existing_docs = JSON.parse(localStorage.getItem("docs"));
+                existing_docs.push(doc);
+                localStorage.setItem("docs", JSON.stringify(existing_docs));
+            } else {
+                console.log("No existing documents found");
+                existing_docs.push(doc);
+                localStorage.setItem("docs", JSON.stringify(existing_docs));
+            }
+
+            existing_docs.forEach(doc => {
+                document.getElementById(doc).disabled = true;
+            })
+
+        } else {
+            console.log("No document uploaded");
+        }
+
+        const loadingModal = new bootstrap.Modal(document.getElementById("loading"), {
+            backdrop: "static"
+        });
+
+        const forms = document.querySelectorAll("form");
+        // submit the form when the file is selected
+        forms.forEach(form => {
+            if (form.name === "claim-assessment") {
+                document.getElementById(form.name).addEventListener("submit",async (e) => {
+                    e.preventDefault();
+                    document.getElementById("user").value = localStorage.getItem("user");
+                    document.getElementById("docs").value = localStorage.getItem("docs");
+                    form.submit();
+                    localStorage.removeItem("docs");
+                    loadingModal.show();
+                    let loading_texts = ["Collecting all documents...", "Accessing Insights...", "Making sense of the data...", "Generating insights...", "Preparing reports with AI...", "Almost done...", "Finalizing report... This might take some time, do not close window or switch tabs until the process is complete."];
+                    for (let i = 0; i < loading_texts.length; i++) {
+                        document.getElementById("loading-text").innerText = loading_texts[i];
+                        await sleep(3);
+                    }
+                })
+            } else {
+                document.getElementById(form.name).addEventListener("change", async (e) => {
+                    e.preventDefault();
+                    document.getElementById(`user-${form.name}`).value = localStorage.getItem("user");
+                    form.submit();
+                    loadingModal.show();
+                    let loading_texts = ["Analyzing your document...", "Reviewing for Quality...", "Generating insights...", "Almost done...", "Final Steps... This might take some time, do not close window or switch tabs until the process is complete."];
+                    for (let i = 0; i < loading_texts.length; i++) {
+                        document.getElementById("loading-text").innerText = loading_texts[i];
+                        await sleep(2);
+                    }
+                })
+            }
+        })
+    })
+
+    async function sleep(s) {
+        return new Promise(resolve => setTimeout(resolve, s * 1000));
+    }
+</script>
+
+{% endblock %}

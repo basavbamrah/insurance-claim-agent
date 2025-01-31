@@ -1,0 +1,65 @@
+{% include 'block.html' %} {% block subcontent %}
+
+<style>
+    .btn-login {
+        border-radius: 10rem;
+    }
+
+    .form-outer {
+            width: 50%!important;
+        }
+
+    /* configurations for small screen */
+    @media (max-width: 768px) {
+        .gradient-card {
+            height: 90vh;
+        }
+
+        .left {
+            display: none;
+        }
+
+        .right {
+            height: 100vh;
+        }
+
+        .form-outer {
+            width: 80%!important;
+        }
+    }
+</style>
+
+<div class="row justify-content-between align-items-center" style="min-height: 90vh;">
+    <div class="left col-lg-4 col-sm-12">
+        <img src="{{url_for('static', filename='img/login.svg')}}" alt="">
+    </div>
+    <div class="right col-lg-6 col-sm-12 gradient-card d-flex flex-column justify-content-start align-items-center">
+        <div>
+            <img src="{{url_for('static', filename='img/logo.svg')}}" alt="">
+        </div>
+        <div class="heading d-flex flex-row justify-content-between">
+            <p class="fs-2 fw-bold">OTP sent on Mobile Number</p>
+        </div>
+        <form class="form-outer" action="/verify-otp" method="post" id="verify">
+            <div class="form-group my-4">
+                <label class="fw-bold" for="phone">Enter Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone">
+            </div>
+
+            <div class="form-group my-4">
+                <label class="fw-bold" for="otp">Enter OTP</label>
+                <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP">
+            </div>
+            <button type="submit" class="btn btn-primary btn-login w-100 mt-2">Verify</button>
+        </form>
+        <p class="fw-italic mt-5">By continuing, you agree to <span class="text-primary">Terms of use</span> and <span class="text-primary">Privacy Policy.</span></p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("hello");
+        document.getElementById('phone').value = localStorage.getItem('phone');
+    });
+</script>
+{% endblock %}

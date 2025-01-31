@@ -1,0 +1,16 @@
+unstructured[all-docs]
+flask
+flask-cors
+pdf2image
+langchain
+langchain-community
+langchain-openai
+langchain-unstructured
+poppler-utils
+pytesseract
+opencv-python-headless
+pikepdf
+python-dotenv==1.0.0
+pillow
+onnx==1.16.1
+gunicorn
